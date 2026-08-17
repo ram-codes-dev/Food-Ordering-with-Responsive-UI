@@ -1,0 +1,24 @@
+============================
+FOODAGE – LICENSE AGREEMENT
+============================
+
+This template is a digital product developed by Ramachandran.R
+
+By purchasing or downloading this template, you are granted a non-exclusive license to use it in your personal and commercial projects.
+
+You are allowed to:
+- Use this template in unlimited personal or commercial websites
+- Modify or customize the code to suit your needs
+- Use it for client or freelance projects
+
+You are not allowed to:
+- Resell, redistribute, or share this template as your own
+- Upload it to any other template marketplace or platform
+- Claim the design or code as exclusively yours
+
+No backend functionality is included — this is a frontend UI template only.
+
+For questions or extended use requests, contact:  
+ramachandranr3105@gmail.com
+
+Thank you for respecting the creator’s work.
