@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Offer Order - Foodage</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background: #0e0e0e;
+      color: white;
+      font-family: 'Lexend', sans-serif;
+      padding: 30px 20px;
+    }
+
+    .order-container {
+      max-width: 750px;
+      margin: auto;
+      background: #1c1c1c;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #00ffff88;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2.2rem;
+      color: #00ffff;
+      margin-bottom: 25px;
+    }
+
+    .order-summary {
+      background: #111;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      box-shadow: 0 0 10px #00e5ff66;
+    }
+
+    .order-summary h3 {
+      margin-bottom: 10px;
+      color: #ffeb3b;
+    }
+
+    .order-summary ul {
+      padding-left: 18px;
+      margin-bottom: 10px;
+    }
+
+    .order-summary li {
+      line-height: 1.6;
+      color: #eee;
+    }
+
+    .order-summary .total {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #e9df1e;
+    }
+
+    form label {
+      display: block;
+      margin-top: 15px;
+      color: #80deea;
+      font-weight: 600;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      background: #1a1a1a;
+      border: 2px solid #444;
+      color: #e0f7fa;
+      margin-top: 8px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .submit-btn {
+      margin-top: 25px;
+      width: 100%;
+      background: #ff0000;
+      color: white;
+      padding: 14px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #ff0000aa;
+      transition: 0.3s;
+    }
+
+    .submit-btn:hover {
+      background: #cc0000;
+      box-shadow: 0 0 20px #ff00ff;
+    }
+    
+    /* Cursor Styles */
+.cursor-outer,
+.cursor-inner {
+  position: fixed;
+  pointer-events: none;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.08s ease-out;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+
+.cursor-outer {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #00ffff;
+  box-shadow: 0 0 10px #00ffff, 0 0 30px #00ffff;
+}
+
+.cursor-inner {
+  width: 10px;
+  height: 10px;
+  background-color: #ff00ff;
+  box-shadow: 0 0 5px #ff00ff, 0 0 15px #ff00ff;
+}
+
+    @media (max-width: 768px) {
+      .cursor-outer,
+      .cursor-inner {
+        display: none !important;
+      }
+    }
+    @media (max-width: 600px) {
+      h2 { font-size: 1.7rem; }
+    }
+
+    .input-error {
+  border-color: #ff5555 !important;
+  background: #3f1a1a !important;
+}
+
+.error-text {
+  color: #ff5555;
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+  </style>
+</head>
+<body>
+  <div class="cursor-outer"></div>
+  <div class="cursor-inner"></div>
+  <div class="order-container">
+    <h2>🎁 Offer Deal Checkout</h2>
+
+    <div class="order-summary" id="summary">
+      <h3>Selected Offer:</h3>
+      <ul id="item-list"></ul>
+
+      <label for="quantity">Quantity</label>
+      <input type="number" id="quantity" min="1" value="1" onchange="updateTotal()" />
+
+      <div class="total">Total: $<span id="total-amount">0.00</span></div>
+    </div>
+
+    <form>
+      <label for="name">Your Name</label>
+      <input type="text" id="name" required>
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" placeholder="Enter The Valid Number" required maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);">
+      <label for="address">Delivery Address</label>
+      <textarea id="address" rows="3" required></textarea>
+
+      <label for="delivery-time">Preferred Delivery Time</label>
+      <select id="delivery-time" required>
+        <option value="">Select time</option>
+        <option>30 min</option>
+        <option>1 hr</option>
+        <option>2 hr</option>
+        <option>3 hr</option>
+      </select>
+      <p style="font-size: 0.9rem; color: #aaa; margin-top: 5px;">
+        ⏱ Delivery time may vary depending on distance.
+      </p>
+
+      <label for="instructions">Special Instructions (optional)</label>
+      <textarea id="instructions" rows="2"></textarea>
+
+      <label for="payment">Payment Method</label>
+      <select id="payment" required>
+        <option value="">Select</option>
+        <option>Cash on Delivery</option>
+        <option>UPI</option>
+        <option>Credit/Debit Card</option>
+      </select>
+      <button class="submit-btn" onclick="submitOrder(event)">Confirm Order ✅</button>
+    </form>
+  </div>
+
+  <script>
+    const deals = {
+      grilled: {
+        name: "Grilled Goodness Deal",
+        items: [
+          { name: "Asian Grilled Chicken", price: 5.99 },
+          { name: "Vegan Bean Enchiladas", price: 4.99 }
+        ],
+        dealPrice: 8.99
+      },
+      paneer: {
+        name: "Paneer Tikka Feast",
+        items: [
+          { name: "Paneer Tikka", price: 5.49 },
+          { name: "Paneer Tikka", price: 5.49 },
+          { name: "Blueberry Pancakes", price: 4.79 }
+        ],
+        dealPrice: 10.98
+      },
+      family: {
+        name: "Family Meal Fiesta",
+        items: [
+          { name: "Street Tacos", price: 5.29 },
+          { name: "Spaghetti Carbonara", price: 6.49 },
+          { name: "Classic Prawn Burger", price: 5.99 }
+        ],
+        dealPrice: 14.99
+      }
+    };
+
+    let selectedDeal;
+    const itemList = document.getElementById("item-list");
+    const totalEl = document.getElementById("total-amount");
+
+    function getDealFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("deal");
+    }
+
+    function loadDeal() {
+      const dealKey = getDealFromURL();
+      selectedDeal = deals[dealKey];
+
+      if (!selectedDeal) {
+        document.getElementById("summary").innerHTML = `<p style="color:red;">❌ Invalid offer selected.</p>`;
+        return;
+      }
+
+      document.querySelector("h3").textContent = selectedDeal.name;
+      itemList.innerHTML = "";
+      selectedDeal.items.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+        itemList.appendChild(li);
+      });
+
+      updateTotal();
+    }
+
+    function updateTotal() {
+      const quantity = parseInt(document.getElementById("quantity").value);
+      const total = selectedDeal.dealPrice * quantity;
+      totalEl.textContent = total.toFixed(2);
+    }
+    
+    function submitOrder(e) {
+  e.preventDefault();
+
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const deliveryTime = document.getElementById("delivery-time").value;
+  const payment = document.getElementById("payment").value;
+
+  // Check required fields
+  if (!name || !phone || !address || !deliveryTime || !payment) {
+    alert("❗ All fields are required except 'Special Instructions'.");
+    return;
+  }
+
+  // Validate mobile number (exactly 10 digits)
+  const phonePattern = /^[0-9]{10}$/;
+  if (!phonePattern.test(phone)) {
+    alert("❗ Please enter a valid 10-digit phone number.");
+    return;
+  }
+
+  // All validations passed
+  alert("🎉 Thank you! Your combo order has been placed successfully!");
+  window.location.href = "index.html";
+}
+
+
+    loadDeal();
+    const cursorOuter = document.querySelector('.cursor-outer'); 
+    const cursorInner = document.querySelector('.cursor-inner');
+
+    // Only run cursor movement code on desktop (screen width > 768px)
+    if (window.innerWidth > 768) {
+      document.addEventListener('mousemove', e => {
+        cursorOuter.style.left = e.clientX + 'px';
+        cursorOuter.style.top = e.clientY + 'px';
+        cursorInner.style.left = e.clientX + 'px';
+        cursorInner.style.top = e.clientY + 'px';
+      });
+    }
+
+  </script>
+</body>
+</html>

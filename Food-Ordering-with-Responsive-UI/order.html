@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Elegant Order Menu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background: #0d1117;
+      font-family: 'Lexend', sans-serif;
+      color: #f0f6fc;
+      padding: 40px 15px;
+    }
+
+    .order-box {
+      max-width: 850px;
+      margin: auto;
+      background: #161b22;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #00bcd47a;
+    }
+
+    h2 {
+      text-align: center;
+      color: #00e5ff;
+      font-size: 2rem;
+      margin-bottom: 25px;
+    }
+
+    .dish-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .dish-item {
+      background: #21262d;
+      padding: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .dish-item:hover, .dish-item.selected {
+      border: 2px solid #00e5ff;
+      background: #1e90ff22;
+    }
+
+    .dish-item input {
+      display: none;
+    }
+
+    .dish-name {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .dish-price {
+      color: #80cbc4;
+    }
+
+    .category-title {
+      margin: 20px 0 10px;
+      font-size: 1.2rem;
+      color: #29b6f6;
+    }
+
+    .selected-section {
+      margin-top: 30px;
+      background: #1c1f26;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #333;
+    }
+
+    .selected-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .selected-item input[type='number'] {
+      width: 60px;
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #555;
+      background: #111;
+      color: #fff;
+      text-align: center;
+    }
+
+    .total-display {
+      margin-top: 20px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #ffc107;
+      text-align: right;
+    }
+
+    /* New form styling */
+    form {
+      margin-top: 30px;
+      background: #1c1f26;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #333;
+      color: #f0f6fc;
+      font-size: 1rem;
+    }
+
+    form .form-group {
+      margin-bottom: 15px;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #00e5ff;
+    }
+
+    form input[type="text"],
+    form input[type="tel"],
+    form select {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid #555;
+      background: #111;
+      color: #92c6f9;
+      font-size: 1rem;
+      box-sizing: border-box;
+      transition: border-color 0.3s;
+    }
+
+    form input[type="text"]:focus,
+    form input[type="tel"]:focus,
+    form select:focus {
+      outline: none;
+      border-color: #00e5ff;
+      background: #162c4a;
+    }
+
+    .info-text {
+      font-size: 0.85rem;
+      color: #80cbc4;
+      margin-top: -8px;
+      margin-bottom: 10px;
+      font-style: italic;
+    }
+
+    .submit-btn {
+      margin-top: 25px;
+      width: 100%;
+      padding: 12px;
+      font-size: 1.1rem;
+      background: #00d3e6;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #000;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .submit-btn:hover {
+      background: #bcbf0d;
+    }
+
+    /* Error styling */
+    .error {
+      border-color: #ff5555 !important;
+      background: #3f1a1a !important;
+    }
+
+    .error-message {
+      color: #ff5555;
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+    .category-title-sig-dish {
+      font-size: 28px;
+      font-weight: bold;
+      color: #00c8ff;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #cdc600, 0 0 20px #855900;
+    }
+    /* Cursor Styles */
+.cursor-outer,
+.cursor-inner {
+  position: fixed;
+  pointer-events: none;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.08s ease-out;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+
+.cursor-outer {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #00ffff;
+  box-shadow: 0 0 10px #00ffff, 0 0 30px #00ffff;
+}
+
+.cursor-inner {
+  width: 10px;
+  height: 10px;
+  background-color: #ff00ff;
+  box-shadow: 0 0 5px #ff00ff, 0 0 15px #ff00ff;
+}
+@media (max-width: 768px) {
+  .cursor-outer,
+  .cursor-inner {
+    display: none !important;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="cursor-outer"></div>
+  <div class="cursor-inner"></div>
+  <div class="order-box">
+    <h2>🍽️ Select Your Dishes</h2>
+<div class="category-title-sig-dish">Foodage Signature</div>
+<div class="dish-grid">
+<label class="dish-item"><input type="checkbox" data-name="Chicken Chasseur" data-price="19.99"><div class="dish-name" style="font-weight: bold;
+  color: #d4c40f;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px #aba503, 0 0 20px #855900; text-align: center;font-size: 17px; padding-top: 13%;" >Chicken Chasseur</div></label>
+</div>
+<div class="category-title">Featured Menu</div>
+<div class="dish-grid">
+  <label class="dish-item"><input type="checkbox" data-name="Asian Grilled Chicken" data-price="5.99"><div class="dish-name">Asian Grilled Chicken</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Royal Paneer Tikka" data-price="5.49"><div class="dish-name">Royal Paneer Tikka</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Vegan Bean Enchiladas" data-price="4.99"><div class="dish-name">Vegan Bean Enchiladas</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Spaghetti Carbonara" data-price="6.49"><div class="dish-name">Spaghetti Carbonara</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Classic Prawn Burger" data-price="5.99"><div class="dish-name">Classic Prawn Burger</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Street Tacos" data-price="5.29"><div class="dish-name">Street Tacos</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Blueberry Pancakes" data-price="4.79"><div class="dish-name">Blueberry Pancakes</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Baked Alaska" data-price="6.99"><div class="dish-name">Baked Alaska</div></label>
+</div>
+
+<div class="category-title">Breakfast</div>
+<div class="dish-grid">
+  <label class="dish-item"><input type="checkbox" data-name="Avocado Toast" data-price="6.99"><div class="dish-name">Avocado Toast</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Bagel with Cream Cheese" data-price="5.00"><div class="dish-name">Bagel with Cream Cheese</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Blueberry Muffins" data-price="4.50"><div class="dish-name">Blueberry Muffins</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Breakfast Burrito" data-price="7.25"><div class="dish-name">Breakfast Burrito</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Breakfast Sausage Links" data-price="5.50"><div class="dish-name">Breakfast Sausage Links</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Chocolate Chip Pancakes" data-price="6.25"><div class="dish-name">Chocolate Chip Pancakes</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Classic Pancakes" data-price="5.99"><div class="dish-name">Classic Pancakes</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Eggs Benedict" data-price="8.99"><div class="dish-name">Eggs Benedict</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="English Breakfast" data-price="9.50"><div class="dish-name">English Breakfast</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="French Toast" data-price="6.75"><div class="dish-name">French Toast</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Fruit Salad Bowl" data-price="5.75"><div class="dish-name">Fruit Salad Bowl</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Granola & Yogurt Bowl" data-price="5.25"><div class="dish-name">Granola & Yogurt Bowl</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Hash Browns & Bacon" data-price="6.50"><div class="dish-name">Hash Browns & Bacon</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Omelette Deluxe" data-price="7.49"><div class="dish-name">Omelette Deluxe</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Scrambled Eggs & Sausages" data-price="6.75"><div class="dish-name">Scrambled Eggs & Sausages</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Yogurt Parfait" data-price="5.75"><div class="dish-name">Yogurt Parfait</div></label>
+</div>
+
+<div class="category-title">Lunch</div>
+<div class="dish-grid">
+  <label class="dish-item"><input type="checkbox" data-name="BLT Sandwich" data-price="9.50"><div class="dish-name">BLT Sandwich</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Caesar Salad" data-price="9.99"><div class="dish-name">Caesar Salad</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Caprese Salad" data-price="9.50"><div class="dish-name">Caprese Salad</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Cheeseburger Deluxe" data-price="10.99"><div class="dish-name">Cheeseburger Deluxe</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Chicken Alfredo Pasta" data-price="14.25"><div class="dish-name">Chicken Alfredo Pasta</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Chicken Caesar Wrap" data-price="10.75"><div class="dish-name">Chicken Caesar Wrap</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Fish and Chips" data-price="3.75"><div class="dish-name">Fish and Chips</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Grilled Chicken Burger" data-price="8.99"><div class="dish-name">Grilled Chicken Burger</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Margherita Pizza" data-price="2.99"><div class="dish-name">Margherita Pizza</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Pasta Primavera" data-price="13.25"><div class="dish-name">Pasta Primavera</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Quinoa Bowl" data-price="11.00"><div class="dish-name">Quinoa Bowl</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Spaghetti Carbonara" data-price="6.49"><div class="dish-name">Spaghetti Carbonara</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Spicy Chicken Wings" data-price="11.75"><div class="dish-name">Spicy Chicken Wings</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Tacos Supreme" data-price="9.49"><div class="dish-name">Tacos Supreme</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Turkey Club Sandwich" data-price="10.50"><div class="dish-name">Turkey Club Sandwich</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Vegetable Stir Fry" data-price="12.00"><div class="dish-name">Vegetable Stir Fry</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Veggie Wrap" data-price="9.75"><div class="dish-name">Veggie Wrap</div></label>
+</div>
+
+<div class="category-title">Dinner</div>
+<div class="dish-grid">
+  <label class="dish-item"><input type="checkbox" data-name="Chicken Marsala" data-price="12.99"><div class="dish-name">Chicken Marsala</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Chicken Stroganoff" data-price="10.25"><div class="dish-name">Chicken Stroganoff</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Eggplant Parmesan" data-price="8.00"><div class="dish-name">Eggplant Parmesan</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Grilled Ribeye Steak" data-price="14.99"><div class="dish-name">Grilled Ribeye Steak</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Grilled Swordfish" data-price="11.50"><div class="dish-name">Grilled Swordfish</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Lamb Chops" data-price="15.99"><div class="dish-name">Lamb Chops</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Meat Wellington" data-price="11.99"><div class="dish-name">Meat Wellington</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Pork Tenderloin" data-price="12.75"><div class="dish-name">Pork Tenderloin</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Roast Duck" data-price="17.50"><div class="dish-name">Roast Duck</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Seared Salmon" data-price="11.50"><div class="dish-name">Seared Salmon</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Seafood Paella" data-price="16.25"><div class="dish-name">Seafood Paella</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Shrimp Scampi" data-price="11.50"><div class="dish-name">Shrimp Scampi</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Stuffed Chicken Breast" data-price="13.75"><div class="dish-name">Stuffed Chicken Breast</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Vegetable Lasagna" data-price="12.50"><div class="dish-name">Vegetable Lasagna</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Vegetarian Stir Fry" data-price="13.99"><div class="dish-name">Vegetarian Stir Fry</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="veggie Carbonara" data-price="7.50"><div class="dish-name">veggie Carbonara</div></label>
+</div>
+
+<div class="category-title">🍰 Desserts</div>
+<div class="dish-grid">
+  <label class="dish-item"><input type="checkbox" data-name="Apple Pie" data-price="6.75"><div class="dish-name">Apple Pie</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Cheesecake" data-price="6.99"><div class="dish-name">Cheesecake</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Chocolate Lava Cake" data-price="7.50"><div class="dish-name">Chocolate Lava Cake</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Crème Brûlée" data-price="7.00"><div class="dish-name">Crème Brûlée</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Ice Cream Sundae" data-price="5.50"><div class="dish-name">Ice Cream Sundae</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Lemon Tart" data-price="6.25"><div class="dish-name">Lemon Tart</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Panna Cotta" data-price="7.00"><div class="dish-name">Panna Cotta</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Strawberry Cheesecake" data-price="6.80"><div class="dish-name">Strawberry Cheesecake</div></label>
+  <label class="dish-item"><input type="checkbox" data-name="Tiramisu" data-price="7.25"><div class="dish-name">Tiramisu</div></label>
+</div>
+
+
+    <div class="selected-section" id="selected-items">
+      <h3>Selected Items & Quantity</h3>
+      <div id="items-list"></div>
+      <div class="total-display">Total: $<span id="total">0.00</span></div>
+    </div>
+
+    <!-- New Form for user details -->
+    <form id="order-form" novalidate>
+      <h3>Delivery Details</h3>
+
+      <div class="form-group">
+        <label for="first-name">First Name <span style="color:#ff5555;">*</span></label>
+        <input type="text" id="first-name" name="first-name" required autocomplete="given-name" />
+        <div class="error-message" id="error-first-name"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="last-name">Last Name (Optional)</label>
+        <input type="text" id="last-name" name="last-name" autocomplete="family-name" />
+      </div>
+
+      <div class="form-group">
+        <label for="address">Delivery Address <span style="color:#ff5555;">*</span></label>
+        <input type="text" id="address" name="address" required autocomplete="street-address" />
+        <div class="error-message" id="error-address"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number <span style="color:#ff5555;">*</span></label>
+        <input type="tel" id="phone" name="phone" required placeholder="10-digit number" maxlength="10" pattern="[0-9]{10}" />
+        <div class="error-message" id="error-phone"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="delivery-time">Delivery Timing <span style="color:#ff5555;">*</span></label>
+        <select id="delivery-time" name="delivery-time" required>
+          <option value="" disabled selected>Select timing</option>
+          <option value="30 min">30 min</option>
+          <option value="1 hr">1 hr</option>
+          <option value="2 hr">2 hr</option>
+          <option value="3 hr">3 hr</option>
+          <option value="4 hr">4 hr</option>
+        </select>
+        <div class="info-text"><br>Timing will change according to the distance...</div>
+        <div class="error-message" id="error-delivery-time"></div>
+      </div>
+
+      <div class="form-group">
+        <label for="payment-method">Payment Method <span style="color:#ff5555;">*</span></label>
+        <select id="payment-method" name="payment-method" required>
+          <option value="" disabled selected>Select payment</option>
+          <option value="Credit Card">Credit Card</option>
+          <option value="Debit Card">Debit Card</option>
+          <option value="PayPal">PayPal</option>
+          <option value="Cash on Delivery">Cash on Delivery</option>
+          <option value="UPI">UPI</option>
+        </select>
+        <div class="error-message" id="error-payment-method"></div>
+      </div>
+
+      <button type="submit" class="submit-btn">✅ Confirm Order</button>
+    </form>
+  </div>
+
+  <script>
+    const checkboxes = document.querySelectorAll(".dish-item input");
+    const itemsList = document.getElementById("items-list");
+    const totalDisplay = document.getElementById("total");
+
+    function updateSelection() {
+      itemsList.innerHTML = "";
+      let total = 0;
+
+      checkboxes.forEach(cb => {
+        const parent = cb.closest(".dish-item");
+        if (cb.checked) {
+          parent.classList.add("selected");
+
+          const name = cb.dataset.name;
+          const price = parseFloat(cb.dataset.price);
+
+          const wrapper = document.createElement("div");
+          wrapper.className = "selected-item";
+
+          const label = document.createElement("span");
+          label.textContent = `${name} - $${price.toFixed(2)}`;
+
+          const qty = document.createElement("input");
+          qty.type = "number";
+          qty.value = 1;
+          qty.min = 1;
+          qty.dataset.price = price;
+          qty.addEventListener("input", calculateTotal);
+
+          wrapper.appendChild(label);
+          wrapper.appendChild(qty);
+          itemsList.appendChild(wrapper);
+
+          total += price;
+        } else {
+          parent.classList.remove("selected");
+        }
+      });
+
+      totalDisplay.textContent = total.toFixed(2);
+    }
+
+    function calculateTotal() {
+      let total = 0;
+      document.querySelectorAll(".selected-item input[type='number']").forEach(input => {
+        const price = parseFloat(input.dataset.price);
+        const qty = parseInt(input.value) || 1;
+        total += price * qty;
+      });
+      totalDisplay.textContent = total.toFixed(2);
+    }
+
+    // Form validation & submission
+    const orderForm = document.getElementById('order-form');
+
+    orderForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Clear previous errors
+      clearErrors();
+
+      let valid = true;
+
+      // Check if at least one dish is selected
+      if (document.querySelectorAll(".selected-item").length === 0) {
+        alert("Please select at least one dish.");
+        valid = false;
+      }
+
+      // Validate First Name (required)
+      const firstName = orderForm['first-name'].value.trim();
+      if (!firstName) {
+        showError('first-name', 'First name is required.');
+        valid = false;
+      }
+
+      // Last Name - optional, no validation needed
+
+      // Validate Delivery Address (required)
+      const address = orderForm['address'].value.trim();
+      if (!address) {
+        showError('address', 'Delivery address is required.');
+        valid = false;
+      }
+
+      // Validate Phone Number (required, 10 digits)
+      const phone = orderForm['phone'].value.trim();
+      const phoneRegex = /^\d{10}$/;
+      if (!phone) {
+        showError('phone', 'Phone number is required.');
+        valid = false;
+      } else if (!phoneRegex.test(phone)) {
+        showError('phone', 'Please enter a valid 10-digit phone number.');
+        valid = false;
+      }
+
+      // Validate Delivery Timing (required)
+      const deliveryTime = orderForm['delivery-time'].value;
+      if (!deliveryTime) {
+        showError('delivery-time', 'Please select delivery timing.');
+        valid = false;
+      }
+
+      // Validate Payment Method (required)
+      const paymentMethod = orderForm['payment-method'].value;
+      if (!paymentMethod) {
+        showError('payment-method', 'Please select a payment method.');
+        valid = false;
+      }
+
+      if (!valid) {
+        return;
+      }
+
+      // Gather order details
+      const selectedItems = [];
+      document.querySelectorAll(".selected-item").forEach(itemDiv => {
+        const text = itemDiv.querySelector('span').textContent;
+        const qty = itemDiv.querySelector('input').value;
+        selectedItems.push(`${text} x ${qty}`);
+      });
+
+      // Show confirmation alert with details
+      alert(
+        `Order placed successfully!\n\n` +
+        `Items:\n${selectedItems.join('\n')}\n\n` +
+        `Total: $${totalDisplay.textContent}\n\n` +
+        `Name: ${firstName} ${orderForm['last-name'].value.trim()}\n` +
+        `Address: ${address}\n` +
+        `Phone: ${phone}\n` +
+        `Delivery Timing: ${deliveryTime}\n` +
+        `Payment Method: ${paymentMethod}`
+      );
+
+      // Optional: reset form and selections after submission
+      orderForm.reset();
+      checkboxes.forEach(cb => { cb.checked = false; cb.closest('.dish-item').classList.remove('selected'); });
+      itemsList.innerHTML = "";
+      totalDisplay.textContent = "0.00";
+    });
+
+    function showError(fieldId, message) {
+      const input = document.getElementById(fieldId);
+      const errorDiv = document.getElementById(`error-${fieldId}`);
+      if (input) input.classList.add('error');
+      if (errorDiv) errorDiv.textContent = message;
+    }
+
+    function clearErrors() {
+      ['first-name', 'address', 'phone', 'delivery-time', 'payment-method'].forEach(id => {
+        const input = document.getElementById(id);
+        const errorDiv = document.getElementById(`error-${id}`);
+        if (input) input.classList.remove('error');
+        if (errorDiv) errorDiv.textContent = "";
+      });
+    }
+    
+    checkboxes.forEach(cb => cb.addEventListener("change", updateSelection));
+     const outer = document.querySelector('.cursor-outer');
+  const inner = document.querySelector('.cursor-inner');
+
+  if (window.innerWidth > 768) {
+    document.body.style.cursor = 'none';
+
+    document.addEventListener('mousemove', (e) => {
+      outer.style.left = e.clientX + 'px';
+      outer.style.top = e.clientY + 'px';
+      inner.style.left = e.clientX + 'px';
+      inner.style.top = e.clientY + 'px';
+    });
+  } else {
+    // Remove the elements completely on mobile
+    outer.remove();
+    inner.remove();
+    document.body.style.cursor = 'default'; // reset cursor
+  }
+  </script>
+</body>
+</html>

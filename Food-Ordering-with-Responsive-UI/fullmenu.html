@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Full Menu - Stylish Design</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+  <style>
+/* General reset and font */
+* {
+  box-sizing: border-box;
+  margin: 0; padding: 0;
+}
+body {
+  background-color: #111;
+  font-family: 'Poppins', sans-serif;
+  color: #eee;
+  min-height: 100vh;
+  padding: 40px 20px;
+  user-select: none;
+  overflow-x: hidden;
+}
+
+/* Cursor Styles */
+.cursor-outer,
+.cursor-inner {
+  position: fixed;
+  pointer-events: none;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.08s ease-out;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+
+.cursor-outer {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #ddff00;
+  box-shadow: 0 0 10px #ffe600, 0 0 30px #ffe600;
+}
+
+.cursor-inner {
+  width: 10px;
+  height: 10px;
+  background-color: #ff0062;
+  box-shadow: 0 0 5px #ff0062, 0 0 15px #ff0062;
+}
+
+a:hover ~ .cursor-inner,
+a:hover ~ .cursor-outer,
+button:hover ~ .cursor-inner,
+button:hover ~ .cursor-outer {
+  background-color: #ff4e00;
+  border-color: #ff4e00;
+  transform: scale(1.5);
+}
+
+/* Container */
+.container {
+  max-width: 1100px;
+  margin: auto;
+}
+
+/* Section Titles */
+h2.section-title {
+  font-weight: 600;
+  font-size: 2.8rem;
+  margin-bottom: 1.2rem;
+  border-bottom: 3px solid #ff4e00;
+  padding-bottom: 0.4rem;
+  letter-spacing: 1px;
+  color: #ff4e00;
+  user-select: none;
+}
+
+/* Menu grid */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-bottom: 60px;
+}
+
+/* Single menu card */
+.menu-card {
+  background: #222;
+  border-radius: 12px;
+  padding: 50px;
+  box-shadow: 0 10px 20px rgba(255,78,0,0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+  user-select: none;
+
+  /* Flex and positioning for bottom row */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  position: relative;
+  padding-bottom: 60px;
+}
+.menu-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(255,78,0,0.3);
+}
+
+/* Menu item name */
+.menu-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #ff4e00;
+  margin-bottom: 6px;
+}
+
+/* Description (optional) */
+.menu-desc {
+  font-size: 0.9rem;
+  color: #bbb;
+  margin-bottom: 12px;
+  min-height: 38px; /* keep card height consistent */
+}
+
+/* Price style */
+.menu-price {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #ff7300;
+  text-align: right;
+  user-select: text;
+
+  /* Position price bottom right */
+  position: absolute;
+  bottom: 30px;
+  right: 45px;
+}
+
+/* Order button */
+.menu-card .order-btn {
+  background: #ff0000;
+  color: #ffffff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 0 10px #ff0000;
+  transition: background 0.3s;
+
+  /* Position order button bottom left */
+  position: absolute;
+  bottom: 30px;
+  left: 45px;
+}
+.menu-card .order-btn:hover {
+  background: #cc0000;
+  box-shadow: 0 0 20px #ff00ff;
+  transform: scale(1.1); 
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  h2.section-title {
+    font-size: 2rem;
+  }
+  .menu-card {
+    padding: 15px;
+  }
+  .menu-name {
+    font-size: 1rem;
+  }
+  .menu-price {
+    font-size: 1rem;
+  }
+  .btn-order {
+    font-size: 1.2rem;
+    padding: 14px 35px;
+  }
+  
+}
+.menu-card::after {
+  content: '';
+  display: block;
+  height: 20px;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 20px 10px;
+  }
+
+  h2.section-title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .menu-grid {
+    gap: 15px;
+  }
+
+  .menu-card {
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .menu-name {
+    font-size: 1rem;
+    margin-bottom: 4px;
+  }
+
+  .menu-desc {
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+    min-height: auto;
+  }
+
+  .menu-price {
+    font-size: 0.9rem;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .menu-card .order-btn {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    bottom: 20px;
+    left: 20px;
+    
+  }
+}
+@media (max-width: 768px) {
+  .cursor-outer,
+  .cursor-inner {
+    display: none !important;
+  }
+  .item-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+}
+
+</style>
+
+</head>
+<body>
+
+  <!-- Cursor Elements -->
+  <div class="cursor-outer"></div>
+  <div class="cursor-inner"></div>
+
+  <div class="container">
+
+    <h2 class="section-title">Breakfast</h2>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-name">Classic Pancakes</div>
+        <div class="menu-desc">Fluffy pancakes served with maple syrup</div>
+        <div class="menu-price">$5.99</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Omelette Deluxe</div>
+        <div class="menu-desc">Three-egg omelette with cheese, veggies & ham</div>
+        <div class="menu-price">$7.49</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">French Toast</div>
+        <div class="menu-desc">Thick bread dipped in cinnamon batter, grilled</div>
+        <div class="menu-price">$6.75</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Avocado Toast</div>
+        <div class="menu-desc">Smashed avocado on sourdough with chili flakes</div>
+        <div class="menu-price">$6.99</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Breakfast Burrito</div>
+        <div class="menu-desc">Eggs, sausage, cheese, beans in warm tortilla</div>
+        <div class="menu-price">$7.25</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Scrambled Eggs & Sausages</div>
+        <div class="menu-desc">Fluffy scrambled eggs with savory sausages</div>
+        <div class="menu-price">$6.75</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Granola & Yogurt Bowl</div>
+        <div class="menu-desc">Crunchy granola with creamy yogurt and fresh fruits</div>
+        <div class="menu-price">$5.25</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Hash Browns & Bacon</div>
+        <div class="menu-desc">Golden crispy hash browns with smoked bacon</div>
+        <div class="menu-price">$6.50</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Blueberry Muffins</div>
+        <div class="menu-desc">Fresh baked muffins loaded with blueberries</div>
+        <div class="menu-price">$4.50</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Bagel with Cream Cheese</div>
+        <div class="menu-desc">Toasted bagel served with rich cream cheese</div>
+        <div class="menu-price">$5.00</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Eggs Benedict</div>
+        <div class="menu-desc">Poached eggs with hollandaise on English muffin</div>
+        <div class="menu-price">$8.99</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Breakfast Sausage Links</div>
+        <div class="menu-desc">Savory sausage links cooked to perfection</div>
+        <div class="menu-price">$5.50</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Fruit Salad Bowl</div>
+        <div class="menu-desc">Fresh seasonal fruits with honey drizzle</div>
+        <div class="menu-price">$5.75</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Chocolate Chip Pancakes</div>
+        <div class="menu-desc">Pancakes loaded with chocolate chips</div>
+        <div class="menu-price">$6.25</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">English Breakfast</div>
+        <div class="menu-desc">Eggs, beans, sausage, bacon, grilled tomato</div>
+        <div class="menu-price">$9.50</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Yogurt Parfait</div>
+        <div class="menu-desc">Layers of yogurt, granola, and fresh berries</div>
+        <div class="menu-price">$5.75</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+    </div>
+
+    <h2 class="section-title">Lunch</h2>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-name">Grilled Chicken Salad</div>
+        <div class="menu-desc">Mixed greens topped with grilled chicken & vinaigrette</div>
+        <div class="menu-price">$11.50</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Cheeseburger Deluxe</div>
+        <div class="menu-desc">Juicy beef patty with cheese, lettuce & tomato</div>
+        <div class="menu-price">$10.99</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Veggie Wrap</div>
+        <div class="menu-desc">Fresh vegetables with hummus wrapped in a tortilla</div>
+        <div class="menu-price">$9.75</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Margherita Pizza</div>
+        <div class="menu-desc">Classic pizza with fresh mozzarella & basil</div>
+        <div class="menu-price">$2.99</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Caesar Salad</div>
+        <div class="menu-desc">Crisp romaine with Caesar dressing and croutons</div>
+        <div class="menu-price">$9.99</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Fish and Chips</div>
+        <div class="menu-desc">Golden fried fish with crispy fries</div>
+        <div class="menu-price">$3.75</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">BLT Sandwich</div>
+        <div class="menu-desc">Bacon, lettuce, tomato with mayo on toasted bread</div>
+        <div class="menu-price">$9.50</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Chicken Alfredo Pasta</div>
+        <div class="menu-desc">Creamy Alfredo sauce with grilled chicken & fettuccine</div>
+        <div class="menu-price">$14.25</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Quinoa Bowl</div>
+        <div class="menu-desc">Quinoa, black beans, avocado & roasted veggies</div>
+        <div class="menu-price">$11.00</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Turkey Club Sandwich</div>
+        <div class="menu-desc">Turkey, bacon, lettuce, tomato & mayo on toasted bread</div>
+        <div class="menu-price">$10.50</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Vegetable Stir Fry</div>
+        <div class="menu-desc">Mixed vegetables sautéed in savory sauce with rice</div>
+        <div class="menu-price">$12.00</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Chicken Caesar Wrap</div>
+        <div class="menu-desc">Grilled chicken and Caesar salad wrapped in a tortilla</div>
+        <div class="menu-price">$10.75</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Steak Sandwich</div>
+        <div class="menu-desc">Sliced steak with caramelized onions on ciabatta</div>
+        <div class="menu-price">$15.50</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Pasta Primavera</div>
+        <div class="menu-desc">Pasta with fresh vegetables and light tomato sauce</div>
+        <div class="menu-price">$13.25</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Spicy Chicken Wings</div>
+        <div class="menu-desc">Spicy chicken wings served with blue cheese dip</div>
+        <div class="menu-price">$11.75</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Caprese Salad</div>
+        <div class="menu-desc">Tomato, mozzarella, basil drizzled with balsamic glaze</div>
+        <div class="menu-price">$9.50</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+    </div>
+
+    <h2 class="section-title">Dinner</h2>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-name">Grilled Ribeye Steak</div>
+        <div class="menu-desc">12 oz ribeye with garlic butter and mashed potatoes</div>
+        <div class="menu-price">$14.99</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Seared Salmon</div>
+        <div class="menu-desc">Salmon fillet with lemon dill sauce and veggies</div>
+        <div class="menu-price">$12.50</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Stuffed Chicken Breast</div>
+        <div class="menu-desc">Chicken breast stuffed with spinach and cheese</div>
+        <div class="menu-price">$13.75</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Vegetable Lasagna</div>
+        <div class="menu-desc">Layers of pasta with veggies and creamy cheese sauce</div>
+        <div class="menu-price">$12.50</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Chicken Stroganoff</div>
+        <div class="menu-desc">Tender chicken strips in creamy mushroom sauce with noodles</div>
+        <div class="menu-price">$10.25</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Shrimp Scampi</div>
+        <div class="menu-desc">Shrimp cooked in garlic butter sauce over linguine</div>
+        <div class="menu-price">$11.50</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Eggplant Parmesan</div>
+        <div class="menu-desc">Breaded eggplant baked with marinara and cheese</div>
+        <div class="menu-price">$8.00</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Lamb Chops</div>
+        <div class="menu-desc">Grilled lamb chops with rosemary and mint jelly</div>
+        <div class="menu-price">$15.99</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Roast Duck</div>
+        <div class="menu-desc">Crispy roast duck served with orange glaze</div>
+        <div class="menu-price">$17.50</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Seafood Paella</div>
+        <div class="menu-desc">Traditional Spanish rice dish loaded with seafood</div>
+        <div class="menu-price">$16.25</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Chicken Marsala</div>
+        <div class="menu-desc">Chicken breast cooked with Marsala wine and mushrooms</div>
+        <div class="menu-price">$12.99</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Meat Wellington</div>
+        <div class="menu-desc">Filet steak coated with mushroom duxelles and puff pastry</div>
+        <div class="menu-price">$11.99</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Pork Tenderloin</div>
+        <div class="menu-desc">Roasted pork with apple cider glaze</div>
+        <div class="menu-price">$12.75</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">veggie Carbonara</div>
+        <div class="menu-desc">Pasta with creamy white sauce, pancetta & Parmesan</div>
+        <div class="menu-price">$7.50</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Vegetarian Stir Fry</div>
+        <div class="menu-desc">Mixed vegetables sautéed with soy-ginger sauce</div>
+        <div class="menu-price">$13.99</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Grilled Swordfish</div>
+        <div class="menu-desc">Swordfish steak with lemon herb butter</div>
+        <div class="menu-price">$11.50</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+    </div>
+
+    <h2 class="section-title">Desserts</h2>
+    <div class="menu-grid">
+      <div class="menu-card">
+        <div class="menu-name">Chocolate Lava Cake</div>
+        <div class="menu-desc">Warm chocolate cake with molten center</div>
+        <div class="menu-price">$7.50</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Cheesecake</div>
+        <div class="menu-desc">Classic New York style cheesecake</div>
+        <div class="menu-price">$6.99</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Tiramisu</div>
+        <div class="menu-desc">Italian coffee-flavored layered dessert</div>
+        <div class="menu-price">$7.25</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Crème Brûlée</div>
+        <div class="menu-desc">Rich custard base with caramelized sugar top</div>
+        <div class="menu-price">$7.00</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Ice Cream Sundae</div>
+        <div class="menu-desc">Vanilla ice cream with chocolate syrup & nuts</div>
+        <div class="menu-price">$5.50</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Apple Pie</div>
+        <div class="menu-desc">Classic apple pie served warm with ice cream</div>
+        <div class="menu-price">$6.75</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Lemon Tart</div>
+        <div class="menu-desc">Tangy lemon tart with buttery crust</div>
+        <div class="menu-price">$6.25</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+      <div class="menu-card">
+        <div class="menu-name">Panna Cotta</div>
+        <div class="menu-desc">Creamy Italian dessert topped with berries</div>
+        <div class="menu-price">$7.00</div>
+        <button class="order-btn" onclick="window.location.href='order.html'">Order</button>
+      </div>
+    </div>
+  </div>
+ <script>
+  const cursorOuter = document.querySelector('.cursor-outer');
+  const cursorInner = document.querySelector('.cursor-inner');
+
+  document.addEventListener('mousemove', e => {
+    cursorOuter.style.left = e.clientX + 'px';
+    cursorOuter.style.top = e.clientY + 'px';
+    cursorInner.style.left = e.clientX + 'px';
+    cursorInner.style.top = e.clientY + 'px';
+  });
+</script>
+
+</body>
+</html>

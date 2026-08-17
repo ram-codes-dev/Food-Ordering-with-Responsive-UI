@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign In</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1d1d1d, #0f0f0f);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .signin-container {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 400px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .signin-container h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 600;
+      font-size: 24px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 40px 12px 40px;
+      border-radius: 8px;
+      border: 1px solid #555;
+      background: #111;
+      color: #fff;
+      outline: none;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+
+    .input-group input:focus {
+      border-color: #00ffff;
+      box-shadow: 0 0 8px #00ffff;
+    }
+
+    .input-group i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+    }
+
+    .remember-forgot {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .remember-forgot a {
+      color: #00ffff;
+      text-decoration: none;
+    }
+
+    .signin-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      background: #00ffff;
+      color: #000;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .signin-btn:hover {
+      background: #00cccc;
+    }
+
+    .divider {
+      text-align: center;
+      margin: 25px 0;
+      position: relative;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 34%;
+      height: 1px;
+      background: #444;
+    }
+
+    .divider::before {
+      left: 0;
+    }
+
+    .divider::after {
+      right: 0;
+    }
+
+    .divider span {
+      background: #0f0f0f;
+      padding: 20 80px;
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    .social-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .social-buttons button {
+      background: #1c1c1c;
+      border: 1px solid #444;
+      color: #fff;
+      border-radius: 6px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .social-buttons button:hover {
+      background: #333;
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+    }
+
+    .signup-link a {
+      color: #00ffff;
+      text-decoration: none;
+    }
+
+    @media (max-width: 480px) {
+      .signin-container {
+        padding: 30px 20px;
+      }
+
+      .input-group input {
+        padding-left: 38px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="signin-container">
+    <h2>Sign In to Your Account</h2>
+
+    <div class="input-group">
+      <i class="fas fa-user"></i>
+      <input type="text" placeholder="Email or Phone Number" />
+    </div>
+
+    <div class="input-group">
+      <i class="fas fa-lock"></i>
+      <input type="password" placeholder="Password" />
+    </div>
+
+    <div class="remember-forgot">
+      <label><input type="checkbox" /> Remember me</label>
+      <a href="#">Forgot Password?</a>
+    </div>
+
+    <button class="signin-btn">Sign In</button>
+
+    <div class="divider"><span>or continue with</span></div>
+
+    <div class="social-buttons">
+      <button><i class="fab fa-google"></i></button>
+      <button><i class="fab fa-facebook-f"></i></button>
+      <button><i class="fab fa-apple"></i></button>
+    </div>
+
+    <div class="signup-link">
+      Don’t have an account? <a href="#">Create One</a>
+    </div>
+  </div>
+</body>
+</html>
